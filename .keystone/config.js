@@ -176,7 +176,7 @@ var lists = {
 var keystone_default = (0, import_core.config)({
   db: {
     provider: "postgresql",
-    url: "postgres://keystone:U8Y2KIGpltxj@ep-sweet-math-809560.cloud.neon.tech/test"
+    url: ""
   },
   lists
 });
