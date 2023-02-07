@@ -1,5 +1,5 @@
 import { config, list } from '@keystone-6/core';
-import { bigInt, calendarDay, relationship, text } from '@keystone-6/core/fields';
+import { calendarDay, relationship, text } from '@keystone-6/core/fields';
 
 const isTrue = () => true;
 
@@ -116,31 +116,89 @@ const lists = {
       title: text({ validation: { isRequired: true }, isIndexed: 'unique' }),
       description: text({ validation: { isRequired: true } }),
       datePublished: calendarDay({ validation: { isRequired: true } }),
-      channel: relationship({ ref: 'Channel', many: false }),
-      speaker: relationship({ ref: 'Speaker', many: false }),
-      language: relationship({ ref: 'Language', many: false }),
-      videoType: relationship({ ref: 'VideoType', many: false }),
+      channel: relationship({
+        ref: 'Channel',
+        many: false,
+        hooks: {
+          validateInput: ({ item, operation, addValidationError, resolvedData, fieldKey }) => {
+            const { channel } = resolvedData;
+            if (operation == "create") {
+              // We call addValidationError to indicate an invalid value.
+              if (channel === undefined || channel === '') {
+                addValidationError('The channel field of a video cannot be empty');
+              }
+            } else if (operation == "update") {
+              // We call addValidationError to indicate an invalid value.
+              if (channel?.disconnect === true) {
+                addValidationError('The channel field of a video cannot be empty');
+              }
+            }
+          },
+        }
+      }),
+      speaker: relationship({
+        ref: 'Speaker',
+        many: false,
+        hooks: {
+          validateInput: ({ item, operation, addValidationError, resolvedData, fieldKey }) => {
+            const { speaker } = resolvedData;
+            if (operation == "create") {
+              // We call addValidationError to indicate an invalid value.
+              if (speaker === undefined || speaker === '') {
+                addValidationError('The speaker field of a video cannot be empty');
+              }
+            } else if (operation == "update") {
+              // We call addValidationError to indicate an invalid value.
+              if (speaker?.disconnect === true) {
+                addValidationError('The speaker field of a video cannot be empty');
+              }
+            }
+          },
+        }
+      }),
+      language: relationship({
+        ref: 'Language',
+        many: false,
+        hooks: {
+          validateInput: ({ item, operation, addValidationError, resolvedData, fieldKey }) => {
+            const { language } = resolvedData;
+            if (operation == "create") {
+              // We call addValidationError to indicate an invalid value.
+              if (language === undefined || language === '') {
+                addValidationError('The language field of a video cannot be empty');
+              }
+            } else if (operation == "update") {
+              // We call addValidationError to indicate an invalid value.
+              if (language?.disconnect === true) {
+                addValidationError(`The language field of a video cannot be empty: ${JSON.stringify(resolvedData)}`);
+              }
+            }
+          },
+        }
+      }),
+      videoType: relationship({
+        ref: 'VideoType',
+        many: false,
+        hooks: {
+          validateInput: ({ item, operation, addValidationError, resolvedData, fieldKey }) => {
+            const { videoType } = resolvedData;
+            if (operation == "create") {
+              // We call addValidationError to indicate an invalid value.
+              if (videoType === undefined || videoType === '') {
+                addValidationError('The videoType field of a video cannot be empty');
+              }
+            } else if (operation == "update") {
+              // We call addValidationError to indicate an invalid value.
+              if (videoType?.disconnect === true) {
+                addValidationError('The videoType field of a video cannot be empty');
+              }
+            }
+          },
+        }
+      }),
     },
     ui: {
       searchFields: ['title', 'description'],
-    },
-    hooks: {
-      validateInput(args) {
-        const { channel, speaker, language, videoType } = args.resolvedData;
-        // We call addValidationError to indicate an invalid value.
-        if (channel === undefined || channel === '') {
-          args.addValidationError('The channel field of a video cannot be empty');
-        }
-        if (speaker === undefined || speaker === '') {
-          args.addValidationError('The speaker field of a video cannot be empty');
-        }
-        if (language === undefined || language === '') {
-          args.addValidationError('The language field of a video cannot be empty');
-        }
-        if (videoType === undefined || videoType === '') {
-          args.addValidationError('The video type field of a video cannot be empty');
-        }
-      },
     },
     access: {
       operation: {
@@ -156,7 +214,7 @@ const lists = {
 export default config({
   db: {
     provider: 'postgresql',
-    url: '{replace-here}',
+    url: '',
   },
   lists,
 });
