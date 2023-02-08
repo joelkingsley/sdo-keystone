@@ -1,11 +1,11 @@
 import { config, list } from '@keystone-6/core';
 import { text } from '@keystone-6/core/fields';
-import { channelConfig } from './modules/channel';
-import { channelTypeConfig } from './modules/channelType';
-import { languageConfig } from './modules/language';
-import { speakerConfig } from './modules/speaker';
-import { videoConfig } from './modules/video';
-import { videoTypeConfig } from './modules/videoType';
+import { channelConfig } from './src/modules/channel';
+import { channelTypeConfig } from './src/modules/channelType';
+import { languageConfig } from './src/modules/language';
+import { speakerConfig } from './src/modules/speaker';
+import { videoConfig } from './src/modules/video';
+import { videoTypeConfig } from './src/modules/videoType';
 
 const isTrue = () => true;
 

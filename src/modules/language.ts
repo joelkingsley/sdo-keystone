@@ -9,6 +9,10 @@ export let languageConfig: ListConfig<BaseListTypeInfo, any> = list({
     languageCode: text({ validation: { isRequired: true }, isIndexed: 'unique' }),
     sourceCountryFlag: text({ validation: { isRequired: true } }),
   },
+  ui: {
+    labelField: 'languageCode',
+    searchFields: ['languageCode'],
+  },
   access: {
     operation: {
       query: isTrue,

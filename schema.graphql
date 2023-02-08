@@ -329,7 +329,8 @@ type Video {
   description: String
   datePublished: CalendarDay
   channel: Channel
-  speaker: Speaker
+  speaker(where: SpeakerWhereInput! = {}, orderBy: [SpeakerOrderByInput!]! = [], take: Int, skip: Int! = 0): [Speaker!]
+  speakerCount(where: SpeakerWhereInput! = {}): Int
   language: Language
   videoType: VideoType
 }
@@ -350,7 +351,7 @@ input VideoWhereInput {
   description: StringFilter
   datePublished: CalendarDayFilter
   channel: ChannelWhereInput
-  speaker: SpeakerWhereInput
+  speaker: SpeakerManyRelationFilter
   language: LanguageWhereInput
   videoType: VideoTypeWhereInput
 }
@@ -366,6 +367,12 @@ input CalendarDayFilter {
   not: CalendarDayFilter
 }
 
+input SpeakerManyRelationFilter {
+  every: SpeakerWhereInput
+  some: SpeakerWhereInput
+  none: SpeakerWhereInput
+}
+
 input VideoOrderByInput {
   id: OrderDirection
   title: OrderDirection
@@ -378,7 +385,7 @@ input VideoUpdateInput {
   description: String
   datePublished: CalendarDay
   channel: ChannelRelateToOneForUpdateInput
-  speaker: SpeakerRelateToOneForUpdateInput
+  speaker: SpeakerRelateToManyForUpdateInput
   language: LanguageRelateToOneForUpdateInput
   videoType: VideoTypeRelateToOneForUpdateInput
 }
@@ -389,10 +396,11 @@ input ChannelRelateToOneForUpdateInput {
   disconnect: Boolean
 }
 
-input SpeakerRelateToOneForUpdateInput {
-  create: SpeakerCreateInput
-  connect: SpeakerWhereUniqueInput
-  disconnect: Boolean
+input SpeakerRelateToManyForUpdateInput {
+  disconnect: [SpeakerWhereUniqueInput!]
+  set: [SpeakerWhereUniqueInput!]
+  create: [SpeakerCreateInput!]
+  connect: [SpeakerWhereUniqueInput!]
 }
 
 input LanguageRelateToOneForUpdateInput {
@@ -417,7 +425,7 @@ input VideoCreateInput {
   description: String
   datePublished: CalendarDay
   channel: ChannelRelateToOneForCreateInput
-  speaker: SpeakerRelateToOneForCreateInput
+  speaker: SpeakerRelateToManyForCreateInput
   language: LanguageRelateToOneForCreateInput
   videoType: VideoTypeRelateToOneForCreateInput
 }
@@ -427,9 +435,9 @@ input ChannelRelateToOneForCreateInput {
   connect: ChannelWhereUniqueInput
 }
 
-input SpeakerRelateToOneForCreateInput {
-  create: SpeakerCreateInput
-  connect: SpeakerWhereUniqueInput
+input SpeakerRelateToManyForCreateInput {
+  create: [SpeakerCreateInput!]
+  connect: [SpeakerWhereUniqueInput!]
 }
 
 input LanguageRelateToOneForCreateInput {

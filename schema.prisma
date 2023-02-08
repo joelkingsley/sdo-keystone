@@ -66,15 +66,13 @@ model Video {
   datePublished DateTime   @postgresql.Date
   channel       Channel?   @relation("Video_channel", fields: [channelId], references: [id])
   channelId     String?    @map("channel")
-  speaker       Speaker?   @relation("Video_speaker", fields: [speakerId], references: [id])
-  speakerId     String?    @map("speaker")
+  speaker       Speaker[]  @relation("Video_speaker")
   language      Language?  @relation("Video_language", fields: [languageId], references: [id])
   languageId    String?    @map("language")
   videoType     VideoType? @relation("Video_videoType", fields: [videoTypeId], references: [id])
   videoTypeId   String?    @map("videoType")
 
   @@index([channelId])
-  @@index([speakerId])
   @@index([languageId])
   @@index([videoTypeId])
 }
