@@ -90,12 +90,14 @@ input SpeakerCreateInput {
 type Language {
   id: ID!
   languageCode: String
+  name: String
   sourceCountryFlag: String
 }
 
 input LanguageWhereUniqueInput {
   id: ID
   languageCode: String
+  name: String
 }
 
 input LanguageWhereInput {
@@ -104,17 +106,20 @@ input LanguageWhereInput {
   NOT: [LanguageWhereInput!]
   id: IDFilter
   languageCode: StringFilter
+  name: StringFilter
   sourceCountryFlag: StringFilter
 }
 
 input LanguageOrderByInput {
   id: OrderDirection
   languageCode: OrderDirection
+  name: OrderDirection
   sourceCountryFlag: OrderDirection
 }
 
 input LanguageUpdateInput {
   languageCode: String
+  name: String
   sourceCountryFlag: String
 }
 
@@ -125,6 +130,7 @@ input LanguageUpdateArgs {
 
 input LanguageCreateInput {
   languageCode: String
+  name: String
   sourceCountryFlag: String
 }
 
@@ -250,6 +256,10 @@ type User {
   id: ID!
   userUuid: String
   userEmail: String
+  likedVideos(where: VideoWhereInput! = {}, orderBy: [VideoOrderByInput!]! = [], take: Int, skip: Int! = 0): [Video!]
+  likedVideosCount(where: VideoWhereInput! = {}): Int
+  dislikedVideos(where: VideoWhereInput! = {}, orderBy: [VideoOrderByInput!]! = [], take: Int, skip: Int! = 0): [Video!]
+  dislikedVideosCount(where: VideoWhereInput! = {}): Int
 }
 
 input UserWhereUniqueInput {
@@ -264,6 +274,14 @@ input UserWhereInput {
   id: IDFilter
   userUuid: StringFilter
   userEmail: StringFilter
+  likedVideos: VideoManyRelationFilter
+  dislikedVideos: VideoManyRelationFilter
+}
+
+input VideoManyRelationFilter {
+  every: VideoWhereInput
+  some: VideoWhereInput
+  none: VideoWhereInput
 }
 
 input UserOrderByInput {
@@ -275,6 +293,15 @@ input UserOrderByInput {
 input UserUpdateInput {
   userUuid: String
   userEmail: String
+  likedVideos: VideoRelateToManyForUpdateInput
+  dislikedVideos: VideoRelateToManyForUpdateInput
+}
+
+input VideoRelateToManyForUpdateInput {
+  disconnect: [VideoWhereUniqueInput!]
+  set: [VideoWhereUniqueInput!]
+  create: [VideoCreateInput!]
+  connect: [VideoWhereUniqueInput!]
 }
 
 input UserUpdateArgs {
@@ -285,6 +312,13 @@ input UserUpdateArgs {
 input UserCreateInput {
   userUuid: String
   userEmail: String
+  likedVideos: VideoRelateToManyForCreateInput
+  dislikedVideos: VideoRelateToManyForCreateInput
+}
+
+input VideoRelateToManyForCreateInput {
+  create: [VideoCreateInput!]
+  connect: [VideoWhereUniqueInput!]
 }
 
 type VideoType {
@@ -333,6 +367,11 @@ type Video {
   speakerCount(where: SpeakerWhereInput! = {}): Int
   language: Language
   videoType: VideoType
+  gcpStorageFileName: String
+  gcpStorageBucketName: String
+  gcpThumbnailFileName: String
+  gcpThumbnailBucketName: String
+  urlSlug: String
 }
 
 scalar CalendarDay @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
@@ -354,6 +393,11 @@ input VideoWhereInput {
   speaker: SpeakerManyRelationFilter
   language: LanguageWhereInput
   videoType: VideoTypeWhereInput
+  gcpStorageFileName: StringFilter
+  gcpStorageBucketName: StringFilter
+  gcpThumbnailFileName: StringFilter
+  gcpThumbnailBucketName: StringFilter
+  urlSlug: StringFilter
 }
 
 input CalendarDayFilter {
@@ -378,6 +422,11 @@ input VideoOrderByInput {
   title: OrderDirection
   description: OrderDirection
   datePublished: OrderDirection
+  gcpStorageFileName: OrderDirection
+  gcpStorageBucketName: OrderDirection
+  gcpThumbnailFileName: OrderDirection
+  gcpThumbnailBucketName: OrderDirection
+  urlSlug: OrderDirection
 }
 
 input VideoUpdateInput {
@@ -388,6 +437,11 @@ input VideoUpdateInput {
   speaker: SpeakerRelateToManyForUpdateInput
   language: LanguageRelateToOneForUpdateInput
   videoType: VideoTypeRelateToOneForUpdateInput
+  gcpStorageFileName: String
+  gcpStorageBucketName: String
+  gcpThumbnailFileName: String
+  gcpThumbnailBucketName: String
+  urlSlug: String
 }
 
 input ChannelRelateToOneForUpdateInput {
@@ -428,6 +482,11 @@ input VideoCreateInput {
   speaker: SpeakerRelateToManyForCreateInput
   language: LanguageRelateToOneForCreateInput
   videoType: VideoTypeRelateToOneForCreateInput
+  gcpStorageFileName: String
+  gcpStorageBucketName: String
+  gcpThumbnailFileName: String
+  gcpThumbnailBucketName: String
+  urlSlug: String
 }
 
 input ChannelRelateToOneForCreateInput {
