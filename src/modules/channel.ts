@@ -14,6 +14,7 @@ export let channelConfig: ListConfig<BaseListTypeInfo, any> = list({
     shortIdentifier: text({ validation: { isRequired: true }, isIndexed: 'unique' }),
     websiteUrl: text({ validation: { isRequired: true } }),
     addressText: text({ validation: { isRequired: true } }),
+    videosInChannel: relationship({ ref: 'Video.channel', many: true }),
   },
   ui: {
     labelField: 'channelName',

@@ -7,11 +7,12 @@ const isTrue = () => true;
 export let languageConfig: ListConfig<BaseListTypeInfo, any> = list({
   fields: {
     languageCode: text({ validation: { isRequired: true }, isIndexed: 'unique' }),
+    name: text({ validation: { isRequired: true }, isIndexed: 'unique' }),
     sourceCountryFlag: text({ validation: { isRequired: true } }),
   },
   ui: {
-    labelField: 'languageCode',
-    searchFields: ['languageCode'],
+    labelField: 'name',
+    searchFields: ['name', 'languageCode'],
   },
   access: {
     operation: {
