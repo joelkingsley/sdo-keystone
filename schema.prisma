@@ -33,17 +33,17 @@ model ChannelType {
 }
 
 model Channel {
-  id                 String       @id @default(cuid())
-  channelName        String       @unique @default("")
-  channelType        ChannelType? @relation("Channel_channelType", fields: [channelTypeId], references: [id])
-  channelTypeId      String?      @map("channelType")
-  locationLat        String       @default("")
-  locationLong       String       @default("")
-  regionCode         String       @default("")
-  shortIdentifier    String       @unique @default("")
-  websiteUrl         String       @default("")
-  addressText        String       @default("")
-  from_Video_channel Video[]      @relation("Video_channel")
+  id              String       @id @default(cuid())
+  channelName     String       @unique @default("")
+  channelType     ChannelType? @relation("Channel_channelType", fields: [channelTypeId], references: [id])
+  channelTypeId   String?      @map("channelType")
+  locationLat     String       @default("")
+  locationLong    String       @default("")
+  regionCode      String       @default("")
+  shortIdentifier String       @unique @default("")
+  websiteUrl      String       @default("")
+  addressText     String       @default("")
+  videosInChannel Video[]      @relation("Video_channel")
 
   @@index([channelTypeId])
 }

@@ -11,7 +11,7 @@ export let videoConfig: ListConfig<BaseListTypeInfo, any> = list({
     description: text({ validation: { isRequired: true } }),
     datePublished: calendarDay({ validation: { isRequired: true } }),
     channel: relationship({
-      ref: 'Channel',
+      ref: 'Channel.videosInChannel',
       many: false,
       hooks: {
         validateInput: validateForAtleastOneRelatedItem,

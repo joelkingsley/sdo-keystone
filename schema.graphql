@@ -180,6 +180,8 @@ type Channel {
   shortIdentifier: String
   websiteUrl: String
   addressText: String
+  videosInChannel(where: VideoWhereInput! = {}, orderBy: [VideoOrderByInput!]! = [], take: Int, skip: Int! = 0): [Video!]
+  videosInChannelCount(where: VideoWhereInput! = {}): Int
 }
 
 input ChannelWhereUniqueInput {
@@ -201,6 +203,13 @@ input ChannelWhereInput {
   shortIdentifier: StringFilter
   websiteUrl: StringFilter
   addressText: StringFilter
+  videosInChannel: VideoManyRelationFilter
+}
+
+input VideoManyRelationFilter {
+  every: VideoWhereInput
+  some: VideoWhereInput
+  none: VideoWhereInput
 }
 
 input ChannelOrderByInput {
@@ -223,12 +232,20 @@ input ChannelUpdateInput {
   shortIdentifier: String
   websiteUrl: String
   addressText: String
+  videosInChannel: VideoRelateToManyForUpdateInput
 }
 
 input ChannelTypeRelateToOneForUpdateInput {
   create: ChannelTypeCreateInput
   connect: ChannelTypeWhereUniqueInput
   disconnect: Boolean
+}
+
+input VideoRelateToManyForUpdateInput {
+  disconnect: [VideoWhereUniqueInput!]
+  set: [VideoWhereUniqueInput!]
+  create: [VideoCreateInput!]
+  connect: [VideoWhereUniqueInput!]
 }
 
 input ChannelUpdateArgs {
@@ -245,11 +262,17 @@ input ChannelCreateInput {
   shortIdentifier: String
   websiteUrl: String
   addressText: String
+  videosInChannel: VideoRelateToManyForCreateInput
 }
 
 input ChannelTypeRelateToOneForCreateInput {
   create: ChannelTypeCreateInput
   connect: ChannelTypeWhereUniqueInput
+}
+
+input VideoRelateToManyForCreateInput {
+  create: [VideoCreateInput!]
+  connect: [VideoWhereUniqueInput!]
 }
 
 type User {
@@ -278,12 +301,6 @@ input UserWhereInput {
   dislikedVideos: VideoManyRelationFilter
 }
 
-input VideoManyRelationFilter {
-  every: VideoWhereInput
-  some: VideoWhereInput
-  none: VideoWhereInput
-}
-
 input UserOrderByInput {
   id: OrderDirection
   userUuid: OrderDirection
@@ -297,13 +314,6 @@ input UserUpdateInput {
   dislikedVideos: VideoRelateToManyForUpdateInput
 }
 
-input VideoRelateToManyForUpdateInput {
-  disconnect: [VideoWhereUniqueInput!]
-  set: [VideoWhereUniqueInput!]
-  create: [VideoCreateInput!]
-  connect: [VideoWhereUniqueInput!]
-}
-
 input UserUpdateArgs {
   where: UserWhereUniqueInput!
   data: UserUpdateInput!
@@ -314,11 +324,6 @@ input UserCreateInput {
   userEmail: String
   likedVideos: VideoRelateToManyForCreateInput
   dislikedVideos: VideoRelateToManyForCreateInput
-}
-
-input VideoRelateToManyForCreateInput {
-  create: [VideoCreateInput!]
-  connect: [VideoWhereUniqueInput!]
 }
 
 type VideoType {
