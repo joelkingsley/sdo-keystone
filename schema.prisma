@@ -49,7 +49,7 @@ model Channel {
 }
 
 model User {
-  id             String  @id @default(cuid())
+  id             String  @id @default(uuid()) @postgresql.Uuid
   userUuid       String  @unique @default("")
   userEmail      String  @default("")
   likedVideos    Video[] @relation("User_likedVideos")

@@ -17,6 +17,11 @@ export let userConfig: ListConfig<BaseListTypeInfo, any> = list({
       many: true,
     }),
   },
+  db: {
+    idField: {
+      kind: 'uuid',
+    },
+  },
   ui: {
     labelField: 'userEmail',
     searchFields: ['userUuid', 'userEmail'],
