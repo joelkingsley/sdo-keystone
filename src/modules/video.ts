@@ -11,7 +11,7 @@ export let videoConfig: ListConfig<BaseListTypeInfo, any> = list({
     description: text({ validation: { isRequired: true } }),
     datePublished: calendarDay({ validation: { isRequired: true } }),
     channel: relationship({
-      ref: 'Channel',
+      ref: 'Channel.videosInChannel',
       many: false,
       hooks: {
         validateInput: validateForAtleastOneRelatedItem,
@@ -38,6 +38,11 @@ export let videoConfig: ListConfig<BaseListTypeInfo, any> = list({
         validateInput: validateForAtleastOneRelatedItem,
       }
     }),
+    gcpStorageFileName: text({ validation: { isRequired: false } }),
+    gcpStorageBucketName: text({ validation: { isRequired: false } }),
+    gcpThumbnailFileName: text({ validation: { isRequired: false } }),
+    gcpThumbnailBucketName: text({ validation: { isRequired: false } }),
+    urlSlug: text({ validation: { isRequired: false } }),
   },
   ui: {
     searchFields: ['title', 'description'],
