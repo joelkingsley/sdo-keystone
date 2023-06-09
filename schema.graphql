@@ -180,7 +180,7 @@ type Channel {
   shortIdentifier: String
   websiteUrl: String
   addressText: String
-  videosInChannel(where: VideoWhereInput! = {}, orderBy: [VideoOrderByInput!]! = [], take: Int, skip: Int! = 0): [Video!]
+  videosInChannel(where: VideoWhereInput! = {}, orderBy: [VideoOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: VideoWhereUniqueInput): [Video!]
   videosInChannelCount(where: VideoWhereInput! = {}): Int
 }
 
@@ -279,9 +279,9 @@ type User {
   id: ID!
   userUuid: String
   userEmail: String
-  likedVideos(where: VideoWhereInput! = {}, orderBy: [VideoOrderByInput!]! = [], take: Int, skip: Int! = 0): [Video!]
+  likedVideos(where: VideoWhereInput! = {}, orderBy: [VideoOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: VideoWhereUniqueInput): [Video!]
   likedVideosCount(where: VideoWhereInput! = {}): Int
-  dislikedVideos(where: VideoWhereInput! = {}, orderBy: [VideoOrderByInput!]! = [], take: Int, skip: Int! = 0): [Video!]
+  dislikedVideos(where: VideoWhereInput! = {}, orderBy: [VideoOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: VideoWhereUniqueInput): [Video!]
   dislikedVideosCount(where: VideoWhereInput! = {}): Int
 }
 
@@ -368,7 +368,7 @@ type Video {
   description: String
   datePublished: CalendarDay
   channel: Channel
-  speaker(where: SpeakerWhereInput! = {}, orderBy: [SpeakerOrderByInput!]! = [], take: Int, skip: Int! = 0): [Speaker!]
+  speaker(where: SpeakerWhereInput! = {}, orderBy: [SpeakerOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: SpeakerWhereUniqueInput): [Speaker!]
   speakerCount(where: SpeakerWhereInput! = {}): Int
   language: Language
   videoType: VideoType
@@ -514,6 +514,72 @@ input VideoTypeRelateToOneForCreateInput {
   connect: VideoTypeWhereUniqueInput
 }
 
+type Admin {
+  id: ID!
+  name: String
+  email: String
+  password: PasswordState
+  type: AdminTypeType
+}
+
+type PasswordState {
+  isSet: Boolean!
+}
+
+enum AdminTypeType {
+  super_admin
+  super_moderator
+}
+
+input AdminWhereUniqueInput {
+  id: ID
+  email: String
+  type: AdminTypeType
+}
+
+input AdminWhereInput {
+  AND: [AdminWhereInput!]
+  OR: [AdminWhereInput!]
+  NOT: [AdminWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  email: StringFilter
+  type: AdminTypeTypeNullableFilter
+}
+
+input AdminTypeTypeNullableFilter {
+  equals: AdminTypeType
+  in: [AdminTypeType!]
+  notIn: [AdminTypeType!]
+  not: AdminTypeTypeNullableFilter
+}
+
+input AdminOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  email: OrderDirection
+  type: OrderDirection
+}
+
+input AdminUpdateInput {
+  name: String
+  email: String
+  password: String
+  type: AdminTypeType
+}
+
+input AdminUpdateArgs {
+  where: AdminWhereUniqueInput!
+  data: AdminUpdateInput!
+}
+
+input AdminCreateInput {
+  name: String
+  email: String
+  password: String
+  type: AdminTypeType
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -562,32 +628,57 @@ type Mutation {
   updateVideos(data: [VideoUpdateArgs!]!): [Video]
   deleteVideo(where: VideoWhereUniqueInput!): Video
   deleteVideos(where: [VideoWhereUniqueInput!]!): [Video]
+  createAdmin(data: AdminCreateInput!): Admin
+  createAdmins(data: [AdminCreateInput!]!): [Admin]
+  updateAdmin(where: AdminWhereUniqueInput!, data: AdminUpdateInput!): Admin
+  updateAdmins(data: [AdminUpdateArgs!]!): [Admin]
+  deleteAdmin(where: AdminWhereUniqueInput!): Admin
+  deleteAdmins(where: [AdminWhereUniqueInput!]!): [Admin]
+  endSession: Boolean!
+  authenticateAdminWithPassword(email: String!, password: String!): AdminAuthenticationWithPasswordResult
+}
+
+union AdminAuthenticationWithPasswordResult = AdminAuthenticationWithPasswordSuccess | AdminAuthenticationWithPasswordFailure
+
+type AdminAuthenticationWithPasswordSuccess {
+  sessionToken: String!
+  item: Admin!
+}
+
+type AdminAuthenticationWithPasswordFailure {
+  message: String!
 }
 
 type Query {
-  speakers(where: SpeakerWhereInput! = {}, orderBy: [SpeakerOrderByInput!]! = [], take: Int, skip: Int! = 0): [Speaker!]
+  speakers(where: SpeakerWhereInput! = {}, orderBy: [SpeakerOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: SpeakerWhereUniqueInput): [Speaker!]
   speaker(where: SpeakerWhereUniqueInput!): Speaker
   speakersCount(where: SpeakerWhereInput! = {}): Int
-  languages(where: LanguageWhereInput! = {}, orderBy: [LanguageOrderByInput!]! = [], take: Int, skip: Int! = 0): [Language!]
+  languages(where: LanguageWhereInput! = {}, orderBy: [LanguageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: LanguageWhereUniqueInput): [Language!]
   language(where: LanguageWhereUniqueInput!): Language
   languagesCount(where: LanguageWhereInput! = {}): Int
-  channelTypes(where: ChannelTypeWhereInput! = {}, orderBy: [ChannelTypeOrderByInput!]! = [], take: Int, skip: Int! = 0): [ChannelType!]
+  channelTypes(where: ChannelTypeWhereInput! = {}, orderBy: [ChannelTypeOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ChannelTypeWhereUniqueInput): [ChannelType!]
   channelType(where: ChannelTypeWhereUniqueInput!): ChannelType
   channelTypesCount(where: ChannelTypeWhereInput! = {}): Int
-  channels(where: ChannelWhereInput! = {}, orderBy: [ChannelOrderByInput!]! = [], take: Int, skip: Int! = 0): [Channel!]
+  channels(where: ChannelWhereInput! = {}, orderBy: [ChannelOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ChannelWhereUniqueInput): [Channel!]
   channel(where: ChannelWhereUniqueInput!): Channel
   channelsCount(where: ChannelWhereInput! = {}): Int
-  users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0): [User!]
+  users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
-  videoTypes(where: VideoTypeWhereInput! = {}, orderBy: [VideoTypeOrderByInput!]! = [], take: Int, skip: Int! = 0): [VideoType!]
+  videoTypes(where: VideoTypeWhereInput! = {}, orderBy: [VideoTypeOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: VideoTypeWhereUniqueInput): [VideoType!]
   videoType(where: VideoTypeWhereUniqueInput!): VideoType
   videoTypesCount(where: VideoTypeWhereInput! = {}): Int
-  videos(where: VideoWhereInput! = {}, orderBy: [VideoOrderByInput!]! = [], take: Int, skip: Int! = 0): [Video!]
+  videos(where: VideoWhereInput! = {}, orderBy: [VideoOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: VideoWhereUniqueInput): [Video!]
   video(where: VideoWhereUniqueInput!): Video
   videosCount(where: VideoWhereInput! = {}): Int
+  admins(where: AdminWhereInput! = {}, orderBy: [AdminOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AdminWhereUniqueInput): [Admin!]
+  admin(where: AdminWhereUniqueInput!): Admin
+  adminsCount(where: AdminWhereInput! = {}): Int
   keystone: KeystoneMeta!
+  authenticatedItem: AuthenticatedItem
 }
+
+union AuthenticatedItem = Admin
 
 type KeystoneMeta {
   adminMeta: KeystoneAdminMeta!
@@ -625,6 +716,7 @@ type KeystoneAdminUIFieldMeta {
   description: String
   isOrderable: Boolean!
   isFilterable: Boolean!
+  isNonNull: [KeystoneAdminUIFieldMetaIsNonNull!]
   fieldMeta: JSON
   viewsIndex: Int!
   customViewsIndex: Int
@@ -632,6 +724,12 @@ type KeystoneAdminUIFieldMeta {
   listView: KeystoneAdminUIFieldMetaListView!
   itemView(id: ID): KeystoneAdminUIFieldMetaItemView
   search: QueryMode
+}
+
+enum KeystoneAdminUIFieldMetaIsNonNull {
+  read
+  create
+  update
 }
 
 type KeystoneAdminUIFieldMetaCreateView {

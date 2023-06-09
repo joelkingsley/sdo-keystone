@@ -1,8 +1,7 @@
 import { list, ListConfig } from "@keystone-6/core";
 import { BaseListTypeInfo } from "@keystone-6/core/dist/declarations/src/types";
 import { relationship, text } from "@keystone-6/core/fields";
-
-const isTrue = () => true;
+import { isSuperAdmin, isSuperAdminOrModerator } from "../auth/auth-utils";
 
 export let channelConfig: ListConfig<BaseListTypeInfo, any> = list({
   fields: {
@@ -22,10 +21,10 @@ export let channelConfig: ListConfig<BaseListTypeInfo, any> = list({
   },
   access: {
     operation: {
-      query: isTrue,
-      create: isTrue,
-      update: isTrue,
-      delete: isTrue,
+      query: isSuperAdminOrModerator,
+      create: isSuperAdminOrModerator,
+      update: isSuperAdmin,
+      delete: isSuperAdmin,
     },
   },
 });
