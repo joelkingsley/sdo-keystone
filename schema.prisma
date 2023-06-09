@@ -9,7 +9,6 @@ datasource postgresql {
 
 generator client {
   provider = "prisma-client-js"
-  output   = "node_modules/.prisma/client"
 }
 
 model Speaker {
@@ -85,4 +84,17 @@ model Video {
   @@index([channelId])
   @@index([languageId])
   @@index([videoTypeId])
+}
+
+model Admin {
+  id       String        @id @default(cuid())
+  name     String        @default("")
+  email    String        @unique @default("")
+  password String
+  type     AdminTypeType @unique @default(super_moderator)
+}
+
+enum AdminTypeType {
+  super_admin
+  super_moderator
 }
