@@ -9,6 +9,9 @@ import { userConfig } from './src/modules/user';
 import { videoConfig } from './src/modules/video';
 import { videoTypeConfig } from './src/modules/videoType';
 import { adminConfig } from './src/modules/admin';
+import * as dotenv from 'dotenv';
+
+dotenv.config()
 
 const lists = {
   Speaker: speakerConfig,

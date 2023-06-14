@@ -41,8 +41,8 @@ export let videoConfig: ListConfig<BaseListTypeInfo, any> = list({
     }),
     gcpStorageFileName: text({ validation: { isRequired: false } }),
     gcpStorageBucketName: text({ validation: { isRequired: false } }),
-    gcpThumbnailFileName: text({ validation: { isRequired: false } }),
-    gcpThumbnailBucketName: text({ validation: { isRequired: false } }),
+    bunnyStorageHlsUrl: text({ validation: { isRequired: false } }),
+    thumbnailUrl: text({ validation: { isRequired: false } }),
     urlSlug: text({ validation: { isRequired: false } }),
   },
   ui: {

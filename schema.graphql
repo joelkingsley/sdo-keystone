@@ -374,8 +374,8 @@ type Video {
   videoType: VideoType
   gcpStorageFileName: String
   gcpStorageBucketName: String
-  gcpThumbnailFileName: String
-  gcpThumbnailBucketName: String
+  bunnyStorageHlsUrl: String
+  thumbnailUrl: String
   urlSlug: String
 }
 
@@ -400,8 +400,8 @@ input VideoWhereInput {
   videoType: VideoTypeWhereInput
   gcpStorageFileName: StringFilter
   gcpStorageBucketName: StringFilter
-  gcpThumbnailFileName: StringFilter
-  gcpThumbnailBucketName: StringFilter
+  bunnyStorageHlsUrl: StringFilter
+  thumbnailUrl: StringFilter
   urlSlug: StringFilter
 }
 
@@ -429,8 +429,8 @@ input VideoOrderByInput {
   datePublished: OrderDirection
   gcpStorageFileName: OrderDirection
   gcpStorageBucketName: OrderDirection
-  gcpThumbnailFileName: OrderDirection
-  gcpThumbnailBucketName: OrderDirection
+  bunnyStorageHlsUrl: OrderDirection
+  thumbnailUrl: OrderDirection
   urlSlug: OrderDirection
 }
 
@@ -444,8 +444,8 @@ input VideoUpdateInput {
   videoType: VideoTypeRelateToOneForUpdateInput
   gcpStorageFileName: String
   gcpStorageBucketName: String
-  gcpThumbnailFileName: String
-  gcpThumbnailBucketName: String
+  bunnyStorageHlsUrl: String
+  thumbnailUrl: String
   urlSlug: String
 }
 
@@ -489,8 +489,8 @@ input VideoCreateInput {
   videoType: VideoTypeRelateToOneForCreateInput
   gcpStorageFileName: String
   gcpStorageBucketName: String
-  gcpThumbnailFileName: String
-  gcpThumbnailBucketName: String
+  bunnyStorageHlsUrl: String
+  thumbnailUrl: String
   urlSlug: String
 }
 
