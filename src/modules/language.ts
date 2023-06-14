@@ -18,8 +18,8 @@ export let languageConfig: ListConfig<BaseListTypeInfo, any> = list({
   access: {
     operation: {
       query: isSuperAdminOrModerator,
-      create: isSuperAdmin,
-      update: isSuperAdmin,
+      create: isSuperAdminOrModerator,
+      update: isSuperAdminOrModerator,
       delete: isSuperAdmin,
     },
   },

@@ -1,7 +1,7 @@
 import { list, ListConfig } from "@keystone-6/core";
 import { BaseListTypeInfo } from "@keystone-6/core/dist/declarations/src/types";
 import { password, select, text } from "@keystone-6/core/fields";
-import { isSuperAdmin } from "../auth/auth-utils";
+import { isSuperAdmin, isSuperAdminOrModerator } from "../auth/auth-utils";
 
 export let adminConfig: ListConfig<BaseListTypeInfo, any> = list({
   fields: {
@@ -26,7 +26,7 @@ export let adminConfig: ListConfig<BaseListTypeInfo, any> = list({
   },
   access: {
     operation: {
-      query: isSuperAdmin,
+      query: isSuperAdminOrModerator,
       create: isSuperAdmin,
       update: isSuperAdmin,
       delete: isSuperAdmin,

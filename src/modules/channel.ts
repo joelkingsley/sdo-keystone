@@ -23,7 +23,7 @@ export let channelConfig: ListConfig<BaseListTypeInfo, any> = list({
     operation: {
       query: isSuperAdminOrModerator,
       create: isSuperAdminOrModerator,
-      update: isSuperAdmin,
+      update: isSuperAdminOrModerator,
       delete: isSuperAdmin,
     },
   },
