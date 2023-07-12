@@ -534,7 +534,6 @@ enum AdminTypeType {
 input AdminWhereUniqueInput {
   id: ID
   email: String
-  type: AdminTypeType
 }
 
 input AdminWhereInput {
