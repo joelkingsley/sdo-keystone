@@ -16,7 +16,6 @@ export let adminConfig: ListConfig<BaseListTypeInfo, any> = list({
         ],
         defaultValue: 'super_moderator',
         validation: { isRequired: true, },
-        isIndexed: 'unique',
         ui: { displayMode: 'select' },
     })
   },

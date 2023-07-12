@@ -91,7 +91,7 @@ model Admin {
   name     String        @default("")
   email    String        @unique @default("")
   password String
-  type     AdminTypeType @unique @default(super_moderator)
+  type     AdminTypeType @default(super_moderator)
 }
 
 enum AdminTypeType {
